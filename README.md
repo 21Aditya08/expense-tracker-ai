@@ -108,7 +108,69 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-The application will start on `http://localhost:8080/api`
+The application will start on `http://localhost:8080`
+
+## 🔐 Authentication Module
+
+This backend includes JWT-based authentication with BCrypt password hashing.
+
+### Endpoints
+
+- `POST /auth/signup` — Register a new user
+- `POST /auth/login` — Login and receive a JWT access token
+
+### Signup Request
+
+```json
+{
+	"username": "jdoe",
+	"email": "jdoe@example.com",
+	"password": "StrongPass123",
+	"name": "John Doe",
+	"firstName": "John",
+	"lastName": "Doe",
+	"phoneNumber": "+1-555-0100"
+}
+```
+
+### Login Request
+
+```json
+{
+	"usernameOrEmail": "jdoe",
+	"password": "StrongPass123"
+}
+```
+
+### Login Response
+
+```json
+{
+	"accessToken": "<JWT_TOKEN>",
+	"tokenType": "Bearer",
+	"user": {
+		"id": 1,
+		"username": "jdoe",
+		"email": "jdoe@example.com",
+		"name": "John Doe",
+		"firstName": "John",
+		"lastName": "Doe",
+		"phoneNumber": "+1-555-0100",
+		"role": "USER",
+		"isActive": true
+	}
+}
+```
+
+### Authorization
+
+- Include the token in the `Authorization` header for protected endpoints:
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+All endpoints other than `/auth/**` require authentication by default.
 
 ### Docker Setup (Coming Soon)
 Docker configurations will be added for easy deployment.

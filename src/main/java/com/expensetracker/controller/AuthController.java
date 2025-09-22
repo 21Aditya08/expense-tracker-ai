@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -22,7 +22,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenProvider tokenProvider;
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody UserLoginDto loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -34,12 +34,9 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
-        
-        // You would need to implement getUserByUsernameOrEmail method in UserService
-        // For now, returning a basic response
-        UserResponseDto userDto = new UserResponseDto();
-        userDto.setUsername(loginRequest.getUsernameOrEmail());
-        
+
+        UserResponseDto userDto = userService.getUserByUsernameOrEmail(loginRequest.getUsernameOrEmail());
+
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userDto));
     }
 

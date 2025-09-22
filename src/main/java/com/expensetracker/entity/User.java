@@ -35,6 +35,10 @@ public class User {
     
     @Column(name = "last_name")
     private String lastName;
+
+    // Consolidated display name
+    @Column(name = "name")
+    private String name;
     
     @Column(name = "phone_number")
     private String phoneNumber;
