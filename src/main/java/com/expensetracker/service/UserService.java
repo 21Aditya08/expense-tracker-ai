@@ -59,4 +59,10 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found: " + usernameOrEmail));
         return convertToDto(user);
     }
+
+    public UserResponseDto getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        return convertToDto(user);
+    }
 }

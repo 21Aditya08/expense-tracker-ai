@@ -172,6 +172,10 @@ Authorization: Bearer <JWT_TOKEN>
 
 All endpoints other than `/auth/**` require authentication by default.
 
+## 👤 User Endpoint
+
+- `GET /users/me` — Returns the currently authenticated user's profile. Requires a valid `Authorization: Bearer <JWT>` header.
+
 ### Docker Setup (Coming Soon)
 Docker configurations will be added for easy deployment.
 
