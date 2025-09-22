@@ -176,6 +176,48 @@ All endpoints other than `/auth/**` require authentication by default.
 
 - `GET /users/me` — Returns the currently authenticated user's profile. Requires a valid `Authorization: Bearer <JWT>` header.
 
+## 🗂️ Category APIs
+
+- `GET /categories` — List categories for current user
+- `POST /categories` — Create a category
+- `PUT /categories/{id}` — Update a category
+- `DELETE /categories/{id}` — Soft-delete a category
+
+Example create request:
+
+```json
+{
+	"name": "Food",
+	"description": "Meals and dining",
+	"iconName": "utensils",
+	"colorCode": "#FF9900",
+	"type": "EXPENSE"
+}
+```
+
+## 💸 Expense APIs
+
+- `GET /expenses` — List expenses for current user
+- `POST /expenses` — Create an expense
+- `PUT /expenses/{id}` — Update an expense
+- `DELETE /expenses/{id}` — Delete an expense
+
+Example create request:
+
+```json
+{
+	"title": "Lunch",
+	"description": "Burger and fries",
+	"amount": 12.50,
+	"expenseDate": "2025-09-22",
+	"type": "EXPENSE",
+	"paymentMethod": "CASH",
+	"categoryId": 1
+}
+```
+
+All Category and Expense endpoints require `Authorization: Bearer <JWT>` and only operate on the authenticated user's data.
+
 ### Docker Setup (Coming Soon)
 Docker configurations will be added for easy deployment.
 

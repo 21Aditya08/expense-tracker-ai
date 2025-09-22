@@ -23,6 +23,10 @@ public class Category {
     
     @Column(nullable = false)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CategoryType type = CategoryType.EXPENSE;
     
     private String description;
     
@@ -49,4 +53,8 @@ public class Category {
     
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Expense> expenses;
+
+    public enum CategoryType {
+        EXPENSE, INCOME
+    }
 }

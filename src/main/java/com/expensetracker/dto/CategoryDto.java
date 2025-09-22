@@ -26,4 +26,7 @@ public class CategoryDto {
     private String colorCode;
     
     private Boolean isActive;
+
+    @NotBlank(message = "Category type is required (EXPENSE or INCOME)")
+    private String type;
 }
