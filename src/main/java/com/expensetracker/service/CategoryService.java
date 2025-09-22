@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +18,17 @@ public class CategoryService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<CategoryDto> listCategories(Long userId) {
-        User user = requireUser(userId);
-        return categoryRepository.findByUserAndIsActiveTrue(user).stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public org.springframework.data.domain.Page<CategoryDto> listCategories(Long userId, String type,
+                                                                           org.springframework.data.domain.Pageable pageable) {
+        requireUser(userId);
+        org.springframework.data.jpa.domain.Specification<Category> spec = (root, q, cb) -> cb.and(
+                cb.equal(root.get("user").get("id"), userId),
+                cb.isTrue(root.get("isActive"))
+        );
+        if (type != null) {
+            spec = spec.and((root, q, cb) -> cb.equal(root.get("type"), Category.CategoryType.valueOf(type.toUpperCase())));
+        }
+        return categoryRepository.findAll(spec, pageable).map(this::toDto);
     }
 
     @Transactional

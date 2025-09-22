@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/expenses")
@@ -19,8 +18,25 @@ public class ExpenseController {
     private final ExpenseService expenseService;
 
     @GetMapping
-    public List<ExpenseDto> list(@AuthenticationPrincipal UserPrincipal principal) {
-        return expenseService.list(principal.getId());
+    public org.springframework.data.domain.Page<ExpenseDto> list(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @RequestParam(required = false) java.time.LocalDate startDate,
+            @RequestParam(required = false) java.time.LocalDate endDate,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) java.math.BigDecimal minAmount,
+            @RequestParam(required = false) java.math.BigDecimal maxAmount,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "expenseDate,desc") String sort
+    ) {
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size,
+                org.springframework.data.domain.Sort.by(sort.split(",")[0]).descending());
+        if (sort.contains(",") && sort.split(",").length > 1 && sort.split(",")[1].equalsIgnoreCase("asc")) {
+            pageable = org.springframework.data.domain.PageRequest.of(page, size,
+                    org.springframework.data.domain.Sort.by(sort.split(",")[0]).ascending());
+        }
+        return expenseService.list(principal.getId(), startDate, endDate, categoryId, type, minAmount, maxAmount, pageable);
     }
 
     @PostMapping

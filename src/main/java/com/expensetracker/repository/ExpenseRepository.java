@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ExpenseRepository extends JpaRepository<Expense, Long> {
+public interface ExpenseRepository extends JpaRepository<Expense, Long>, org.springframework.data.jpa.repository.JpaSpecificationExecutor<Expense> {
     
     Page<Expense> findByUserOrderByExpenseDateDesc(User user, Pageable pageable);
     

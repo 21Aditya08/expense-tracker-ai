@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
+ 
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +23,24 @@ public class ExpenseService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<ExpenseDto> list(Long userId) {
-        User user = requireUser(userId);
-        return expenseRepository.findByUserOrderByExpenseDateDesc(user, org.springframework.data.domain.Pageable.unpaged())
-                .stream().map(this::toDto).collect(Collectors.toList());
+    public org.springframework.data.domain.Page<ExpenseDto> list(Long userId,
+                                                                 java.time.LocalDate startDate,
+                                                                 java.time.LocalDate endDate,
+                                                                 Long categoryId,
+                                                                 String type,
+                                                                 java.math.BigDecimal minAmount,
+                                                                 java.math.BigDecimal maxAmount,
+                                                                 org.springframework.data.domain.Pageable pageable) {
+        requireUser(userId);
+        org.springframework.data.jpa.domain.Specification<Expense> spec = (root, query, cb) -> cb.equal(root.get("user").get("id"), userId);
+        if (startDate != null) spec = spec.and((root, q, cb) -> cb.greaterThanOrEqualTo(root.get("expenseDate"), startDate));
+        if (endDate != null) spec = spec.and((root, q, cb) -> cb.lessThanOrEqualTo(root.get("expenseDate"), endDate));
+        if (categoryId != null) spec = spec.and((root, q, cb) -> cb.equal(root.get("category").get("id"), categoryId));
+        if (type != null) spec = spec.and((root, q, cb) -> cb.equal(root.get("type"), Expense.ExpenseType.valueOf(type.toUpperCase())));
+        if (minAmount != null) spec = spec.and((root, q, cb) -> cb.greaterThanOrEqualTo(root.get("amount"), minAmount));
+        if (maxAmount != null) spec = spec.and((root, q, cb) -> cb.lessThanOrEqualTo(root.get("amount"), maxAmount));
+
+        return expenseRepository.findAll(spec, pageable).map(this::toDto);
     }
 
     @Transactional

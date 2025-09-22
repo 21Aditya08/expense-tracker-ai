@@ -178,7 +178,7 @@ All endpoints other than `/auth/**` require authentication by default.
 
 ## 🗂️ Category APIs
 
-- `GET /categories` — List categories for current user
+- `GET /categories` — List categories for current user (supports: `type`, `page`, `size`, `sort`)
 - `POST /categories` — Create a category
 - `PUT /categories/{id}` — Update a category
 - `DELETE /categories/{id}` — Soft-delete a category
@@ -197,7 +197,7 @@ Example create request:
 
 ## 💸 Expense APIs
 
-- `GET /expenses` — List expenses for current user
+- `GET /expenses` — List expenses for current user (supports: `startDate`, `endDate`, `categoryId`, `type`, `minAmount`, `maxAmount`, `page`, `size`, `sort`)
 - `POST /expenses` — Create an expense
 - `PUT /expenses/{id}` — Update an expense
 - `DELETE /expenses/{id}` — Delete an expense
