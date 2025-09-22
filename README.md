@@ -1,5 +1,7 @@
 # Expense Tracker with AI/ML Insights
 
+[![Java CI with Maven](https://github.com/21Aditya08/expense-tracker-ai/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/21Aditya08/expense-tracker-ai/actions/workflows/maven.yml)
+
 A comprehensive full-stack expense tracking application with AI-powered insights and analytics. This Spring Boot backend provides robust APIs for expense management, user authentication, and data analytics.
 
 ## 🚀 Features
