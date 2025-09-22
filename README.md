@@ -30,6 +30,12 @@ A comprehensive full-stack expense tracking application with AI-powered insights
 - **Build Tool**: Maven
 - **Additional Libraries**: Lombok, Bean Validation
 
+### Frontend
+- **Framework**: React 18 + Vite + TypeScript
+- **UI**: Tailwind CSS
+- **Routing**: React Router
+- **HTTP**: Axios
+
 ## 📁 Project Structure
 
 ```
@@ -110,7 +116,44 @@ mvn spring-boot:run
 
 The application will start on `http://localhost:8080`
 
-## 🔐 Authentication Module
+## �️ Frontend (React + Vite)
+
+The repository includes a React frontend in the `frontend/` directory.
+
+### Prerequisites
+- Node.js 18+ and npm
+
+### Setup
+1. Install dependencies:
+```bash
+cd frontend
+npm install
+```
+
+2. Configure environment (optional): create `frontend/.env` with:
+```bash
+VITE_API_BASE_URL=http://localhost:8080
+```
+If not set, the app defaults to `http://localhost:8080`.
+
+3. Run the dev server:
+```bash
+npm run dev
+```
+
+Open the app at the URL printed by Vite (default `http://localhost:5173`).
+
+### Pages
+- Login (`/login`) — authenticates via `POST /auth/login` and saves JWT to `localStorage`
+- Signup (`/signup`) — registers via `POST /auth/signup`
+- Dashboard (`/dashboard`) — protected route that calls `GET /users/me`
+
+The JWT is stored in `localStorage` under the key `token`. Axios automatically includes it as `Authorization: Bearer <token>` for API calls.
+
+### CORS
+Ensure the backend CORS configuration allows the frontend origin (e.g., `http://localhost:5173`). If you encounter 403/CORS errors, update the CORS settings in your Spring Security configuration to include the Vite dev server origin.
+
+## �🔐 Authentication Module
 
 This backend includes JWT-based authentication with BCrypt password hashing.
 
@@ -287,7 +330,7 @@ For support, email support@expensetracker.com or create an issue in this reposit
 - [ ] Complete basic CRUD operations
 - [ ] Add expense analytics endpoints
 - [ ] Implement AI/ML insights
-- [ ] Add frontend React/Angular application
+- [x] Add frontend React application
 - [ ] Mobile app development
 - [ ] Advanced reporting features
 - [ ] Budget management tools
