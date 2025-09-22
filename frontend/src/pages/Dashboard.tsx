@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '@/lib/api'
+import CategorySection from '@/components/CategorySection'
+import ExpenseSection from '@/components/ExpenseSection'
 
 type User = {
   id: number
@@ -43,22 +45,15 @@ export default function Dashboard() {
   if (error) return <p className="p-6 text-red-600">{error}</p>
 
   return (
-    <div className="p-6">
+    <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Welcome{user?.name ? `, ${user.name}` : ''}</h1>
         <button onClick={logout} className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">Logout</button>
       </div>
-      <div className="mt-6">
-        <p className="text-gray-700">Username: {user?.username}</p>
-        <p className="text-gray-700">Email: {user?.email}</p>
-      </div>
-      <div className="mt-8">
-        <h2 className="text-xl font-medium mb-2">Next steps</h2>
-        <ul className="list-disc ml-6 text-gray-700">
-          <li>Create Category and Expense management pages</li>
-          <li>Add forms for adding expenses and categories</li>
-          <li>Display paginated lists with filters</li>
-        </ul>
+
+      <div className="grid grid-cols-1 gap-6">
+        <ExpenseSection />
+        <CategorySection />
       </div>
     </div>
   )

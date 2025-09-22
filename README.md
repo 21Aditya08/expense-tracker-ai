@@ -147,11 +147,32 @@ Open the app at the URL printed by Vite (default `http://localhost:5173`).
 - Login (`/login`) — authenticates via `POST /auth/login` and saves JWT to `localStorage`
 - Signup (`/signup`) — registers via `POST /auth/signup`
 - Dashboard (`/dashboard`) — protected route that calls `GET /users/me`
+	- Expenses: list with date/category filters, create/edit/delete
+	- Categories: list, create/edit/delete (type = EXPENSE)
 
 The JWT is stored in `localStorage` under the key `token`. Axios automatically includes it as `Authorization: Bearer <token>` for API calls.
 
 ### CORS
 Ensure the backend CORS configuration allows the frontend origin (e.g., `http://localhost:5173`). If you encounter 403/CORS errors, update the CORS settings in your Spring Security configuration to include the Vite dev server origin.
+
+## 📸 Screenshots (placeholders)
+
+> Replace these with actual screenshots after running the frontend.
+
+1. Login Page — ![Login Screenshot](docs/screenshots/login.png)
+2. Signup Page — ![Signup Screenshot](docs/screenshots/signup.png)
+3. Dashboard (Expenses) — ![Dashboard Expenses](docs/screenshots/dashboard-expenses.png)
+4. Dashboard (Categories) — ![Dashboard Categories](docs/screenshots/dashboard-categories.png)
+
+## 🧭 Usage Steps (UI)
+
+1. Open the frontend at `http://localhost:5173`
+2. Sign up a user, then log in
+3. On Dashboard:
+	- Create a few categories (type EXPENSE)
+	- Add expenses using the form (select a category)
+	- Use filters to narrow by date range and category
+	- Edit or delete items via the actions
 
 ## �🔐 Authentication Module
 
