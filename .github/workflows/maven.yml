@@ -32,6 +32,10 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B -q clean install
+        env:
+          USE_TESTCONTAINERS: "false"
 
       - name: Run tests
         run: mvn -B -q test
+        env:
+          USE_TESTCONTAINERS: "false"

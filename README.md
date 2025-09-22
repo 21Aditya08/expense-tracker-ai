@@ -309,10 +309,55 @@ Key configurations can be found in `src/main/resources/application.properties`
 
 ## 🧪 Testing
 
-Run tests with:
+This project’s integration tests are designed to run anywhere:
+
+- Default: Uses an in-memory H2 database (no Docker required)
+- Optional: Use Testcontainers with a real MySQL if you enable it
+
+### Quick start (H2, no Docker)
+
+Run the test suite:
+
 ```bash
 mvn test
 ```
+
+or on Windows PowerShell:
+
+```powershell
+mvn test
+```
+
+The tests automatically configure an H2 in-memory database in MySQL compatibility mode and set all required properties (including a strong JWT secret) via DynamicPropertySource.
+
+### Use Testcontainers (MySQL)
+
+If you have Docker available and want to test against a real MySQL via Testcontainers, enable it explicitly:
+
+Linux/macOS (bash):
+
+```bash
+export USE_TESTCONTAINERS=true
+mvn test
+```
+
+Windows PowerShell:
+
+```powershell
+$env:USE_TESTCONTAINERS = "true"
+mvn test
+```
+
+Alternatively, pass a system property:
+
+```bash
+mvn -DuseTestcontainers=true test
+```
+
+Notes:
+- When enabled, tests will start a MySQL 8 container and wire datasource properties dynamically.
+- When disabled (default), tests use H2 with `ddl-auto=create-drop` so each run starts fresh.
+- CI runs with the default H2 mode for speed and portability.
 
 ## 🔒 Security
 
